@@ -3,19 +3,19 @@
 [![Go Version](https://img.shields.io/badge/Go-1.24.5-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-一个用纯 Go 语言实现的轻量级 Redis 服务器，支持基本的 Redis 命令、集群模式和 AOF 持久化。
+一个用纯 Go 语言实现的 Redis 服务器，从零开始构建 TCP 服务器和 RESP 协议解析器。目前支持基本的 Redis 命令、集群模式和 AOF 持久化。
 
-## ✨ 特性
+## 特性
 
-- 🚀 **纯 Go 实现**：从零开始构建的 TCP 服务器和 RESP 协议解析器
-- 🔧 **多模式支持**：支持单机模式（Standalone）和集群模式（Cluster）
-- 💾 **AOF 持久化**：支持 AOF（Append Only File）持久化机制
-- ⚡ **高性能**：使用并发安全的数据结构和连接池优化性能
-- 🎯 **一致性哈希**：集群模式下使用一致性哈希算法进行数据分片
-- 🛡️ **优雅关闭**：支持信号监听和优雅的服务器关闭
-- 📝 **日志系统**：完整的日志记录系统，支持日志文件轮转
+- 纯 Go 实现，从底层 TCP 到 RESP 协议解析全部手写
+- 支持单机模式（Standalone）和集群模式（Cluster）
+- 实现了 AOF（Append Only File）持久化机制
+- 使用并发安全的数据结构和连接池
+- 集群模式使用一致性哈希算法进行数据分片
+- 支持优雅关闭，可以监听系统信号
+- 完整的日志系统，支持日志文件轮转
 
-## 📋 支持的 Redis 命令
+## 支持的命令
 
 ### 字符串操作
 - `GET key` - 获取键的值
@@ -37,7 +37,7 @@
 - `SELECT index` - 切换数据库
 - `PING` - 测试连接
 
-## 🏗️ 项目结构
+## 项目结构
 
 ```
 go_redis/
@@ -83,9 +83,9 @@ go_redis/
 └── logs/                # 日志文件目录
 ```
 
-## 🚀 快速开始
+## 快速开始
 
-### 前置要求
+### 环境要求
 
 - Go 1.18 或更高版本
 - Git
@@ -154,9 +154,9 @@ OK
 1) "mykey"
 ```
 
-## 🔧 集群模式
+## 集群模式
 
-启动集群需要配置多个节点：
+集群模式需要配置多个节点：
 
 **节点1 (redis1.conf):**
 ```properties
@@ -184,7 +184,7 @@ peers 127.0.0.1:8888,127.0.0.1:8889
 
 分别启动每个节点，集群会自动使用一致性哈希算法分配数据。
 
-## 📚 核心实现
+## 实现说明
 
 ### TCP 服务器
 
@@ -215,7 +215,7 @@ AOF 持久化特性：
 - 连接池管理节点间通信
 - 透明的数据路由和转发
 
-## 🧪 测试
+## 测试
 
 ```bash
 # 运行所有测试
@@ -226,15 +226,15 @@ go test ./database
 go test ./resp/parser
 ```
 
-## 📈 性能
+## 性能优化
 
-项目使用以下技术优化性能：
+主要优化措施：
 - `sync.Map` 实现并发安全的字典
 - 连接池减少连接开销
 - 原子操作保证线程安全
 - 高效的 RESP 协议解析器
 
-## 🛣️ 开发路线图
+## TODO
 
 - [x] TCP 服务器实现
 - [x] RESP 协议解析
@@ -256,36 +256,20 @@ go test ./resp/parser
 - [ ] 主从复制
 - [ ] 哨兵模式
 
-## 🤝 贡献
+## 贡献
 
-欢迎贡献代码！请遵循以下步骤：
+欢迎提交 PR，步骤：
 
 1. Fork 本仓库
 2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交你的修改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启一个 Pull Request
+5. 提交 Pull Request
 
-## 📄 许可证
+## 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+MIT License
 
-## 👨‍💻 作者
+## 致谢
 
-- GitHub: [@see1youagain](https://github.com/see1youagain)
-
-## 🙏 致谢
-
-- 感谢 Redis 项目提供的优秀设计思想
-- 感谢 Go 社区的各种优秀开源项目
-- 特别感谢 [go-commons-pool](https://github.com/jolestar/go-commons-pool) 项目提供的连接池实现
-
-## 📞 联系方式
-
-如有问题或建议，欢迎：
-- 提交 [Issue](https://github.com/see1youagain/go_redis/issues)
-- 发起 [Pull Request](https://github.com/see1youagain/go_redis/pulls)
-
----
-
-⭐ 如果这个项目对你有帮助，请给一个 Star！
+参考了 Redis 的设计思想，使用了 [go-commons-pool](https://github.com/jolestar/go-commons-pool) 作为连接池实现。
