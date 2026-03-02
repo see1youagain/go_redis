@@ -1,3 +1,18 @@
 logs/
 *.log
 *.log.*
+
+# Redis 持久化数据文件
+*.aof
+*.rdb
+appendonly.aof
+dump.rdb
+
+# Go 编译产物
+*.exe
+*.exe~
+*.out
+
+# IDE 配置
+.idea/
+.vscode/
